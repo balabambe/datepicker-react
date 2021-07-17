@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import DatepickerTitle from './DatepickerTitle';
+import DatepickerBody from './DatepickerBody';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import './Datepicker.scoped.scss';
@@ -40,8 +41,6 @@ const Datepicker = () => {
     }
   }
 
-  const selectDate = (item) => setSelectedDate(item);
-
   useEffect(() => {
     setYyyy(currentDate.split('-')[0]);
     setFirstDayOfWeek(currentDayJs.startOf('month').day());
@@ -55,7 +54,19 @@ const Datepicker = () => {
     const nextMonthRemaningDays = [...Array(daysCount - prevMonthRemaningDays.length - currentMonthDays.length).keys()].map((item) => currentDayJs.add(1, 'month').startOf('month').add(item, 'day').format(dateFormat));
     setNextMonthRemaningDays(nextMonthRemaningDays);
 
-  }, [setYyyy, setFirstDayOfWeek, setCurrentMMM, setCurrentDaysInMonth, setPrevMonthRemaningDays, setCurrentMonthDays, setNextMonthRemaningDays, currentDayJs, currentDate, firstDayOfWeek, currentDaysInMonth]);
+  }, [
+    setYyyy,
+    setFirstDayOfWeek,
+    setCurrentMMM,
+    setCurrentDaysInMonth,
+    setPrevMonthRemaningDays,
+    setCurrentMonthDays,
+    setNextMonthRemaningDays,
+    currentDayJs,
+    currentDate,
+    firstDayOfWeek,
+    currentDaysInMonth,
+  ]);
 
 
   return (
@@ -67,68 +78,28 @@ const Datepicker = () => {
             <div className="prev day clickable" onClick={() => changeMonth('prev')}>
               <ArrowForwardIosIcon />
             </div>
-            <DatepickerTitle dateViews={dateViews }dateView={dateView} setDateView={setDateView} currentMMM={currentMMM} yyyy={yyyy} />
+            <DatepickerTitle
+              dateViews={dateViews}
+              dateView={dateView}
+              setDateView={setDateView}
+              currentMMM={currentMMM}
+              yyyy={yyyy}
+            />
             <div className="next day clickable" onClick={() => changeMonth('next')}>
               <ArrowForwardIosIcon />
             </div>
           </div>
         </div>
-        <div className="datepicker-body">
-          <ul className="datepicker-dayweekname">
-            { dayWeekNames.map((item) => {
-              return (
-                <li className="day" key={item}>{item}</li>
-              );
-            })}
-          </ul>
-          <ul className="days-block">
-            {
-              prevMonthRemaningDays.map((item) => {
-                return (
-                  <li
-                    key={item}
-                    className={`day outside-day prev-month clickable ${selectedDate === item ? 'selected' : ''}`}
-                    onClick={() => {
-                      selectDate(item);
-                    }}
-                  >
-                    {dayjs(item).format('D')}
-                  </li>
-                )
-              })
-            }
-            {
-              currentMonthDays.map((item) => {
-                return (
-                  <li
-                    key={item}
-                    className={`day current-month clickable ${currentDate === item ? 'current-day' : ''} ${selectedDate === item ? 'selected' : ''}`}
-                    onClick={() => {
-                      selectDate(item);
-                    }}
-                  >
-                    {dayjs(item).format('D')}
-                  </li>
-                )
-              })
-            }
-            {
-              nextMonthRemaningDays.map((item) => {
-                return (
-                  <li
-                    key={item}
-                    className={`day outside-day next-month clickable ${selectedDate === item ? 'selected' : ''}`}
-                    onClick={() => {
-                      selectDate(item);
-                    }}
-                  >
-                    {dayjs(item).format('D')}
-                  </li>
-                )
-              })
-            }
-          </ul>
-        </div>
+        <DatepickerBody
+          dateViews={dateViews}
+          currentDate={currentDate}
+          dayWeekNames={dayWeekNames}
+          prevMonthRemaningDays={prevMonthRemaningDays}
+          currentMonthDays={currentMonthDays}
+          nextMonthRemaningDays={nextMonthRemaningDays}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+        />
       </div>
     </>
   )
