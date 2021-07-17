@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
+import DatepickerTitle from './DatepickerTitle';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import './Datepicker.scoped.scss';
@@ -7,7 +8,7 @@ import './Datepicker.scoped.scss';
 const dayWeekNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 const dateFormat = 'YYYY-MM-DD';
 const daysCount = 6 * 7;
-
+const dateViews = ['days', 'months', 'years'];
 
 const Datepicker = () => {
 
@@ -24,6 +25,8 @@ const Datepicker = () => {
 
   const [selectedDate, setSelectedDate] = useState(currentDate);
 
+  const [dateView, setDateView] = useState(dateViews[0]);
+
   const changeMonth = (act) => {
     const newDayjs = dayjs(currentDayJs);
     switch (act) {
@@ -37,10 +40,7 @@ const Datepicker = () => {
     }
   }
 
-  const clickDate = (item) => {
-    console.log(item);
-    setSelectedDate(item);
-  }
+  const selectDate = (item) => setSelectedDate(item);
 
   useEffect(() => {
     setYyyy(currentDate.split('-')[0]);
@@ -67,11 +67,13 @@ const Datepicker = () => {
             <div className="prev day clickable" onClick={() => changeMonth('prev')}>
               <ArrowForwardIosIcon />
             </div>
-            <div className="date-title clickable">{currentMMM} {yyyy}</div>
+            <DatepickerTitle dateViews={dateViews }dateView={dateView} setDateView={setDateView} currentMMM={currentMMM} yyyy={yyyy} />
             <div className="next day clickable" onClick={() => changeMonth('next')}>
               <ArrowForwardIosIcon />
             </div>
           </div>
+        </div>
+        <div className="datepicker-body">
           <ul className="datepicker-dayweekname">
             { dayWeekNames.map((item) => {
               return (
@@ -79,8 +81,6 @@ const Datepicker = () => {
               );
             })}
           </ul>
-        </div>
-        <div className="datepicker-body">
           <ul className="days-block">
             {
               prevMonthRemaningDays.map((item) => {
@@ -89,7 +89,7 @@ const Datepicker = () => {
                     key={item}
                     className={`day outside-day prev-month clickable ${selectedDate === item ? 'selected' : ''}`}
                     onClick={() => {
-                      clickDate(item);
+                      selectDate(item);
                     }}
                   >
                     {dayjs(item).format('D')}
@@ -104,7 +104,7 @@ const Datepicker = () => {
                     key={item}
                     className={`day current-month clickable ${currentDate === item ? 'current-day' : ''} ${selectedDate === item ? 'selected' : ''}`}
                     onClick={() => {
-                      clickDate(item);
+                      selectDate(item);
                     }}
                   >
                     {dayjs(item).format('D')}
@@ -119,7 +119,7 @@ const Datepicker = () => {
                     key={item}
                     className={`day outside-day next-month clickable ${selectedDate === item ? 'selected' : ''}`}
                     onClick={() => {
-                      clickDate(item);
+                      selectDate(item);
                     }}
                   >
                     {dayjs(item).format('D')}
