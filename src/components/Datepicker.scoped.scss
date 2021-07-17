@@ -50,6 +50,11 @@
 
   &.date-title {
     box-shadow: none;
+    color: inherit;
+    border-radius: 0;
+    &:hover {
+      background: #eee;
+    }
   }
 }
 .day {
