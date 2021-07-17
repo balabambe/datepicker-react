@@ -1,0 +1,53 @@
+.datepicker-main {
+  width: 238px;
+}
+.datepicker-nav {
+  .prev,
+  .next,
+  .date-title {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 24px;
+    > * {
+      vertical-align: middle;
+    }
+    svg {
+      width: 16px;
+    }
+  }
+  .date-title {
+    display: inline-block;
+    width: 170px;
+    text-align: center;
+    font-weight: bold;
+  }
+  .prev {
+    svg {
+      transform: rotate(180deg);
+    }
+  }
+}
+.datepicker-dayweekname {
+  display: block;
+  font-weight: bold;
+}
+.days-block {
+  display: block;
+}
+.day {
+  display: inline-block;
+  margin: 2px;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  line-height: 30px;
+
+  &.selected {
+    background: #db3d44;
+    border-radius: 50%;
+    color: white;
+  }
+  &.current-day {
+    color: #db3d44;
+  }
+}
