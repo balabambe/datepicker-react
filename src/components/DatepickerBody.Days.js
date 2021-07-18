@@ -27,16 +27,34 @@ const DatepickerBodyDays = ({...args}) => {
   const [nextMonthRemaningDays, setNextMonthRemaningDays] = useState([]);
 
   useEffect(() => {
-    setFirstDayOfWeek(currentDayJs.startOf('month').day());
-    setCurrentDaysInMonth(currentDayJs.daysInMonth());
+    setFirstDayOfWeek(currentDayJs.startOf('month').day()); // 取得本月的第一天是星期幾
+    setCurrentDaysInMonth(currentDayJs.daysInMonth()); // 取得本月有幾天
     
+    // 以本月的第一天是星期幾，並往前推算取得並顯示上月的日數
     const prevMonthRemaningDays = [...Array(firstDayOfWeek).keys()].map((item) => currentDayJs.subtract(1, 'month').endOf('month').subtract(item, 'day').format(dateFormat)).reverse();
     setPrevMonthRemaningDays(prevMonthRemaningDays);
+    
+    // 以本月有幾天取得本月所有的日數
     const currentMonthDays = [...Array(currentDaysInMonth).keys()].map((item) => currentDayJs.startOf('month').add(item, 'day').format(dateFormat));
     setCurrentMonthDays(currentMonthDays);
+
+    // 顯示這一個月最多有 6 * 7 格，取得 prevMonthRemaningDays 的 length 與本月 currentMonthDays 的 length，並去除掉這些已經取得的日數，就是剩下下個月可以取得的日數
     const nextMonthRemaningDays = [...Array(daysCount - prevMonthRemaningDays.length - currentMonthDays.length).keys()].map((item) => currentDayJs.add(1, 'month').startOf('month').add(item, 'day').format(dateFormat));
     setNextMonthRemaningDays(nextMonthRemaningDays);
-  }, [setFirstDayOfWeek, setCurrentDaysInMonth, setPrevMonthRemaningDays, setCurrentMonthDays, setNextMonthRemaningDays, currentDayJs, immutableToday, firstDayOfWeek, currentDaysInMonth, daysCount, dateFormat]);
+
+  }, [
+    setFirstDayOfWeek,
+    setCurrentDaysInMonth,
+    setPrevMonthRemaningDays,
+    setCurrentMonthDays,
+    setNextMonthRemaningDays,
+    currentDayJs,
+    immutableToday,
+    firstDayOfWeek,
+    currentDaysInMonth,
+    daysCount,
+    dateFormat]
+  );
 
   return (
     <div className="datepicker-body">
