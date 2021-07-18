@@ -6,6 +6,17 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+
+### `npm ci`
+
+Npm runs the installation by `package-lock.json`,
+and install current version packages for the project.
+
+### `npm install`
+
+Npm will check the packages version and install propper version package for the project,
+if `npm ci` prompt the error messages, please use the command to fresh install package.
+
 ### `npm start`
 
 Runs the app in the development mode.\
