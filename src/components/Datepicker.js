@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import dayjs from 'dayjs';
 import DatepickerTitle from './DatepickerTitle';
 import DatepickerBody from './DatepickerBody';
@@ -13,8 +13,6 @@ const Datepicker = () => {
 
   const [currentDayJs, setCurrentDayJs] = useState(dayjs()); // 整個變動的核心
   const [immutableToday] = useState(dayjs().format(dateFormat)); // 今天日期，不可動
-
-  const [selectedMonthOfYear, setSelectedMonthOfYear] = useState(dayjs(immutableToday).format('YYYY'));
 
   const [selectedDate, setSelectedDate] = useState(immutableToday);
 
@@ -32,23 +30,11 @@ const Datepicker = () => {
       default:
     }
   }
-  const changeYear = (act) => {
-    switch (act) {
-      case 'prev':
-        setSelectedMonthOfYear(dayjs(selectedMonthOfYear).subtract(1, 'year').format('YYYY'));
-        break;
-      case 'next':
-        setSelectedMonthOfYear(dayjs(selectedMonthOfYear).add(1, 'year').format('YYYY'));
-        break;
-      default:
-    }
-  }
 
   const switchToggle = (act) => {
     switch (dateView) {
       case dateViews[1]:
         togglePrevNext(act, 'year');
-        changeYear(act);
         break;
       case dateViews[2]:
         togglePrevNext(act, 'years');
@@ -59,11 +45,6 @@ const Datepicker = () => {
         break;
     }
   }
-
-  useEffect(() => {
-    setSelectedMonthOfYear(dayjs(immutableToday).format('YYYY'));
-  }, [setSelectedMonthOfYear, currentDayJs, immutableToday]);
-
 
   return (
     <>
@@ -92,7 +73,6 @@ const Datepicker = () => {
           dateView={dateView}
           immutableToday={immutableToday}
           selectedDate={selectedDate}
-          selectedMonthOfYear={selectedMonthOfYear}
           setDateView={setDateView}
           setCurrentDayJs={setCurrentDayJs}
           setSelectedDate={setSelectedDate}
