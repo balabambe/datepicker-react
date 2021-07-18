@@ -4,12 +4,17 @@ import './Datepicker.scoped.scss';
 
 const DatepickerTitle = ({dateViews, dateView, setDateView, currentDayJs}) => {
   const [currentMMM, setCurrentMMM] = useState(); // 月份英文
+  const [yearRange, setYearRange] = useState();
 
   useEffect(() => {
+    const theYear = parseInt(dayjs(currentDayJs).format('YYYY'));
+    const yearHead = theYear - (theYear % 10);
+    setYearRange(yearHead);
     setCurrentMMM(currentDayJs.format('MMM'));
   }, [
     currentDayJs,
     setCurrentMMM,
+    setYearRange,
   ]);
 
   let header;
@@ -21,7 +26,7 @@ const DatepickerTitle = ({dateViews, dateView, setDateView, currentDayJs}) => {
       break;
     case dateViews[2]:
       header = (
-        <div className="date-title clickable">{dayjs(currentDayJs).format('YYYY')}</div>
+        <div className="date-title clickable">{`${yearRange}-${yearRange + 9}`}</div>
       )
       break;
     default:
