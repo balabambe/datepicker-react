@@ -18,14 +18,14 @@ const Datepicker = () => {
 
   const [dateView, setDateView] = useState(dateViews[0]);
 
-  const togglePrevNext = (act, type) => {
+  const togglePrevNext = (act, type, quantity = 1) => {
     const newDayjs = dayjs(currentDayJs);
     switch (act) {
       case 'prev':
-        setCurrentDayJs(newDayjs.subtract(1, type));
+        setCurrentDayJs(newDayjs.subtract(quantity, type));
         break;
       case 'next':
-        setCurrentDayJs(newDayjs.add(1, type));
+        setCurrentDayJs(newDayjs.add(quantity, type));
         break;
       default:
     }
@@ -37,7 +37,7 @@ const Datepicker = () => {
         togglePrevNext(act, 'year');
         break;
       case dateViews[2]:
-        togglePrevNext(act, 'years');
+        togglePrevNext(act, 'year', 10);
         break;
       default:
       case dateViews[0]:

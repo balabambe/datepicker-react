@@ -8,6 +8,7 @@ const DatepickerBodyYears = ({...args}) => {
     currentDayJs,
     dateFormat,
     setCurrentDayJs,
+    selectedDate,
     setSelectedDate,
     dateViews,
     setDateView,
@@ -43,7 +44,7 @@ const DatepickerBodyYears = ({...args}) => {
             return (
               <li
                 key={item}
-                className={`year clickable ${dayjs(currentDayJs).format('YYYY') === dayjs(item).format('YYYY') ? 'selected' : ''}`}
+                className={`year clickable ${dayjs(selectedDate).format('YYYY') === dayjs(item).format('YYYY') ? 'selected' : ''}`}
                 onClick={() => selectYear(item)}
               >
                 {dayjs(item).format('YYYY')}
