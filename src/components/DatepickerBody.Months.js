@@ -22,9 +22,12 @@ const DatepickerBodyMonths = ({...args}) => {
   };
 
   useEffect(() => {
+    /**
+     * 取得 Jan ~ Dec 的 value
+     * ex: ['2021-01-01' ... '2021-12-01']
+     */
     const getCurrentMonths = [...Array(12).keys()].map((item) => dayjs(currentDayJs).startOf('year').add(item, 'month').format('YYYY-MM-DD'));
     setCurrentMonths(getCurrentMonths);
-
   }, [currentDayJs, setCurrentMonths]);
 
   return (

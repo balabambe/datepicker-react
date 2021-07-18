@@ -13,10 +13,11 @@ const Datepicker = ({date = dayjs(), onSelect = (() => {}), opened = false}) => 
   const [currentDayJs, setCurrentDayJs] = useState(dayjs(date)); // 整個變動的核心
   const [immutableToday] = useState(dayjs().format(dateFormat)); // 今天日期，不可動
 
-  const [selectedDate, setSelectedDate] = useState(immutableToday);
+  const [selectedDate, setSelectedDate] = useState(immutableToday); // 已選取的日期
 
-  const [dateView, setDateView] = useState(dateViews[0]);
+  const [dateView, setDateView] = useState(dateViews[0]); // 點選 header 變更日期的 layout
 
+  // 選取上下月(年)的部份
   const togglePrevNext = (act, type, quantity = 1) => {
     const newDayjs = dayjs(currentDayJs);
     switch (act) {
