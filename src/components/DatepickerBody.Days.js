@@ -1,19 +1,42 @@
+import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import './Datepicker.scoped.scss';
 
+const dayWeekNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+
 const DatepickerBodyDays = ({...args}) => {
 
+  const daysCount = 6 * 7;
+
   const {
+    currentDayJs,
     immutableToday,
-    dayWeekNames,
-    prevMonthRemaningDays,
-    currentMonthDays,
-    nextMonthRemaningDays,
     selectedDate,
     setSelectedDate,
+    dateFormat,
   } = args;
 
   const selectDate = (item) => setSelectedDate(item);
+
+
+  const [firstDayOfWeek, setFirstDayOfWeek] = useState(); // 這個月的 1 號是星期幾
+  const [currentDaysInMonth, setCurrentDaysInMonth] = useState(); // 這個月有幾天(最後一天是幾號)
+  
+  const [prevMonthRemaningDays, setPrevMonthRemaningDays] = useState([]);
+  const [currentMonthDays, setCurrentMonthDays] = useState([]);
+  const [nextMonthRemaningDays, setNextMonthRemaningDays] = useState([]);
+
+  useEffect(() => {
+    setFirstDayOfWeek(currentDayJs.startOf('month').day());
+    setCurrentDaysInMonth(currentDayJs.daysInMonth());
+    
+    const prevMonthRemaningDays = [...Array(firstDayOfWeek).keys()].map((item) => currentDayJs.subtract(1, 'month').endOf('month').subtract(item, 'day').format(dateFormat)).reverse();
+    setPrevMonthRemaningDays(prevMonthRemaningDays);
+    const currentMonthDays = [...Array(currentDaysInMonth).keys()].map((item) => currentDayJs.startOf('month').add(item, 'day').format(dateFormat));
+    setCurrentMonthDays(currentMonthDays);
+    const nextMonthRemaningDays = [...Array(daysCount - prevMonthRemaningDays.length - currentMonthDays.length).keys()].map((item) => currentDayJs.add(1, 'month').startOf('month').add(item, 'day').format(dateFormat));
+    setNextMonthRemaningDays(nextMonthRemaningDays);
+  }, [setFirstDayOfWeek, setCurrentDaysInMonth, setPrevMonthRemaningDays, setCurrentMonthDays, setNextMonthRemaningDays, currentDayJs, immutableToday, firstDayOfWeek, currentDaysInMonth, daysCount, dateFormat]);
 
   return (
     <div className="datepicker-body">

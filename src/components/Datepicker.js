@@ -6,21 +6,13 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import EventNoteIcon from '@material-ui/icons/EventNote';
 import './Datepicker.scoped.scss';
 
-const dayWeekNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 const dateFormat = 'YYYY-MM-DD';
-const daysCount = 6 * 7;
 const dateViews = ['day', 'month', 'year'];
 
 const Datepicker = () => {
 
   const [currentDayJs, setCurrentDayJs] = useState(dayjs()); // 整個變動的核心
   const [immutableToday] = useState(dayjs().format(dateFormat)); // 今天日期，不可動
-  const [firstDayOfWeek, setFirstDayOfWeek] = useState(); // 這個月的 1 號是星期幾
-  const [currentDaysInMonth, setCurrentDaysInMonth] = useState(); // 這個月有幾天(最後一天是幾號)
-  
-  const [prevMonthRemaningDays, setPrevMonthRemaningDays] = useState([]);
-  const [currentMonthDays, setCurrentMonthDays] = useState([]);
-  const [nextMonthRemaningDays, setNextMonthRemaningDays] = useState([]);
 
   const [selectedMonthOfYear, setSelectedMonthOfYear] = useState(dayjs(immutableToday).format('YYYY'));
 
@@ -69,28 +61,8 @@ const Datepicker = () => {
   }
 
   useEffect(() => {
-    setFirstDayOfWeek(currentDayJs.startOf('month').day());
-    setCurrentDaysInMonth(currentDayJs.daysInMonth());
     setSelectedMonthOfYear(dayjs(immutableToday).format('YYYY'));
-    
-    const prevMonthRemaningDays = [...Array(firstDayOfWeek).keys()].map((item) => currentDayJs.subtract(1, 'month').endOf('month').subtract(item, 'day').format(dateFormat)).reverse();
-    setPrevMonthRemaningDays(prevMonthRemaningDays);
-    const currentMonthDays = [...Array(currentDaysInMonth).keys()].map((item) => currentDayJs.startOf('month').add(item, 'day').format(dateFormat));
-    setCurrentMonthDays(currentMonthDays);
-    const nextMonthRemaningDays = [...Array(daysCount - prevMonthRemaningDays.length - currentMonthDays.length).keys()].map((item) => currentDayJs.add(1, 'month').startOf('month').add(item, 'day').format(dateFormat));
-    setNextMonthRemaningDays(nextMonthRemaningDays);
-  }, [
-    setFirstDayOfWeek,
-    setCurrentDaysInMonth,
-    setSelectedMonthOfYear,
-    setPrevMonthRemaningDays,
-    setCurrentMonthDays,
-    setNextMonthRemaningDays,
-    currentDayJs,
-    immutableToday,
-    firstDayOfWeek,
-    currentDaysInMonth,
-  ]);
+  }, [setSelectedMonthOfYear, currentDayJs, immutableToday]);
 
 
   return (
@@ -114,16 +86,14 @@ const Datepicker = () => {
           </div>
         </div>
         <DatepickerBody
+          currentDayJs={currentDayJs}
+          dateFormat={dateFormat}
           dateViews={dateViews}
           dateView={dateView}
           immutableToday={immutableToday}
-          dayWeekNames={dayWeekNames}
-          prevMonthRemaningDays={prevMonthRemaningDays}
-          currentMonthDays={currentMonthDays}
-          nextMonthRemaningDays={nextMonthRemaningDays}
           selectedDate={selectedDate}
-          setDateView={setDateView}
           selectedMonthOfYear={selectedMonthOfYear}
+          setDateView={setDateView}
           setCurrentDayJs={setCurrentDayJs}
           setSelectedDate={setSelectedDate}
         />
