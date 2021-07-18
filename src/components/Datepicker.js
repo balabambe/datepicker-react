@@ -3,13 +3,12 @@ import dayjs from 'dayjs';
 import DatepickerTitle from './DatepickerTitle';
 import DatepickerBody from './DatepickerBody';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
-import EventNoteIcon from '@material-ui/icons/EventNote';
 import './Datepicker.scoped.scss';
 
 const dateFormat = 'YYYY-MM-DD';
 const dateViews = ['day', 'month', 'year'];
 
-const Datepicker = ({date = dayjs(), onSelect = (() => {}), opened = true}) => {
+const Datepicker = ({date = dayjs(), onSelect = (() => {}), opened = false}) => {
 
   const [currentDayJs, setCurrentDayJs] = useState(dayjs(date)); // 整個變動的核心
   const [immutableToday] = useState(dayjs().format(dateFormat)); // 今天日期，不可動
@@ -48,7 +47,6 @@ const Datepicker = ({date = dayjs(), onSelect = (() => {}), opened = true}) => {
 
   return ( opened &&
     <>
-      <EventNoteIcon />
       <div className="datepicker-main">
         <div className="datepicker-header">
           <div className="datepicker-nav">
