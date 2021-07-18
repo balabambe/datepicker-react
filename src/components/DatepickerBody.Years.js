@@ -1,15 +1,9 @@
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 import './Datepicker.scoped.scss';
 
 const DatepickerBodyYears = ({...args}) => {
 
   const {
-    immutableToday,
-    dayWeekNames,
-    prevMonthRemaningDays,
-    currentMonthDays,
-    nextMonthRemaningDays,
-    selectedDate,
     setSelectedDate,
   } = args;
 
