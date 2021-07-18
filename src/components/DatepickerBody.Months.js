@@ -16,7 +16,6 @@ const DatepickerBodyMonths = ({...args}) => {
   const [currentMonths, setCurrentMonths] = useState([]);
 
   const selectDate = (item) => {
-    console.log(item);
     setDateView(dateViews[0]);
     setCurrentDayJs(dayjs(item));
     setSelectedDate(item);
