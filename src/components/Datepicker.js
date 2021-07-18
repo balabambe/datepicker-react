@@ -9,9 +9,9 @@ import './Datepicker.scoped.scss';
 const dateFormat = 'YYYY-MM-DD';
 const dateViews = ['day', 'month', 'year'];
 
-const Datepicker = () => {
+const Datepicker = ({date = dayjs(), onSelect = (() => {})}) => {
 
-  const [currentDayJs, setCurrentDayJs] = useState(dayjs()); // 整個變動的核心
+  const [currentDayJs, setCurrentDayJs] = useState(dayjs(date)); // 整個變動的核心
   const [immutableToday] = useState(dayjs().format(dateFormat)); // 今天日期，不可動
 
   const [selectedDate, setSelectedDate] = useState(immutableToday);
@@ -76,6 +76,7 @@ const Datepicker = () => {
           setDateView={setDateView}
           setCurrentDayJs={setCurrentDayJs}
           setSelectedDate={setSelectedDate}
+          onSelect={onSelect}
         />
       </div>
     </>

@@ -14,9 +14,13 @@ const DatepickerBodyDays = ({...args}) => {
     selectedDate,
     setSelectedDate,
     dateFormat,
+    onSelect,
   } = args;
 
-  const selectDate = (item) => setSelectedDate(item);
+  const selectDate = (item) => {
+    setSelectedDate(item);
+    onSelect(item);
+  };
 
 
   const [firstDayOfWeek, setFirstDayOfWeek] = useState(); // 這個月的 1 號是星期幾
