@@ -1,8 +1,30 @@
+
+.datepicker-input {
+  display: inline-block;
+  border: 1px solid gray;
+  border-radius: 5px;
+  padding: 5px;
+  position: relative;
+  .icon-calendar {
+    display: inline-block;
+    svg {
+      vertical-align: middle;
+    }
+  }
+  input {
+    border: 0;
+    outline: 0;
+  }
+}
+
 .datepicker-main {
   position: absolute;
   z-index: 1;
+  top: 110%;
+  left: 0;
   width: 252px;
   border: 1px solid #eee;
+  background: white;
   border-radius: 10px;
   box-shadow: 0 0 2px 2px rgba(0, 0, 0, .1);
   padding: 10px;
