@@ -71,7 +71,7 @@ const DatepickerBodyDays = ({...args}) => {
             return (
               <li
                 key={item}
-                className={`day outside-day prev-month clickable ${selectedDate === item ? 'selected' : ''}`}
+                className={`day outside prev-month clickable ${selectedDate === item ? 'selected' : ''}`}
                 onClick={() => {
                   selectDate(item);
                 }}
@@ -101,7 +101,7 @@ const DatepickerBodyDays = ({...args}) => {
             return (
               <li
                 key={item}
-                className={`day outside-day next-month clickable ${selectedDate === item ? 'selected' : ''}`}
+                className={`day outside next-month clickable ${selectedDate === item ? 'selected' : ''}`}
                 onClick={() => {
                   selectDate(item);
                 }}
