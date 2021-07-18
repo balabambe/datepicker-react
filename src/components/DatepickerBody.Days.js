@@ -4,7 +4,7 @@ import './Datepicker.scoped.scss';
 const DatepickerBodyDays = ({...args}) => {
 
   const {
-    currentDate,
+    immutableToday,
     dayWeekNames,
     prevMonthRemaningDays,
     currentMonthDays,
@@ -45,7 +45,7 @@ const DatepickerBodyDays = ({...args}) => {
             return (
               <li
                 key={item}
-                className={`day current-month clickable ${currentDate === item ? 'current-day' : ''} ${selectedDate === item ? 'selected' : ''}`}
+                className={`day current-month clickable ${immutableToday === item ? 'current-day' : ''} ${selectedDate === item ? 'selected' : ''}`}
                 onClick={() => {
                   selectDate(item);
                 }}

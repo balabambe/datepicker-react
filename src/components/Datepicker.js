@@ -9,35 +9,33 @@ import './Datepicker.scoped.scss';
 const dayWeekNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 const dateFormat = 'YYYY-MM-DD';
 const daysCount = 6 * 7;
-const dateViews = ['days', 'months', 'years'];
+const dateViews = ['day', 'month', 'year'];
 
 const Datepicker = () => {
 
-  const [currentDayJs, setCurrentDayJs] = useState(dayjs());
-  const [currentDate] = useState(dayjs().format(dateFormat)); // 今天日期
-  const [yyyy, setYyyy] = useState(); // 今日解構
+  const [currentDayJs, setCurrentDayJs] = useState(dayjs()); // 整個變動的核心
+  const [immutableToday] = useState(dayjs().format(dateFormat)); // 今天日期，不可動
   const [firstDayOfWeek, setFirstDayOfWeek] = useState(); // 這個月的 1 號是星期幾
-  const [currentMMM, setCurrentMMM] = useState(); // 月份英文
   const [currentDaysInMonth, setCurrentDaysInMonth] = useState(); // 這個月有幾天(最後一天是幾號)
   
   const [prevMonthRemaningDays, setPrevMonthRemaningDays] = useState([]);
   const [currentMonthDays, setCurrentMonthDays] = useState([]);
   const [nextMonthRemaningDays, setNextMonthRemaningDays] = useState([]);
 
-  const [selectedMonthOfYear, setSelectedMonthOfYear] = useState(dayjs(currentDate).format('YYYY'));
+  const [selectedMonthOfYear, setSelectedMonthOfYear] = useState(dayjs(immutableToday).format('YYYY'));
 
-  const [selectedDate, setSelectedDate] = useState(currentDate);
+  const [selectedDate, setSelectedDate] = useState(immutableToday);
 
   const [dateView, setDateView] = useState(dateViews[0]);
 
-  const changeMonth = (act) => {
+  const togglePrevNext = (act, type) => {
     const newDayjs = dayjs(currentDayJs);
     switch (act) {
       case 'prev':
-        setCurrentDayJs(newDayjs.subtract(1, 'month'));
+        setCurrentDayJs(newDayjs.subtract(1, type));
         break;
       case 'next':
-        setCurrentDayJs(newDayjs.add(1, 'month'));
+        setCurrentDayJs(newDayjs.add(1, type));
         break;
       default:
     }
@@ -57,23 +55,23 @@ const Datepicker = () => {
   const switchToggle = (act) => {
     switch (dateView) {
       case dateViews[1]:
+        togglePrevNext(act, 'year');
         changeYear(act);
         break;
       case dateViews[2]:
-  
+        togglePrevNext(act, 'years');
         break;
       default:
       case dateViews[0]:
-        changeMonth(act);
+        togglePrevNext(act, 'month');
         break;
     }
   }
 
   useEffect(() => {
-    setYyyy(currentDate.split('-')[0]);
     setFirstDayOfWeek(currentDayJs.startOf('month').day());
-    setCurrentMMM(currentDayJs.format('MMM'));
     setCurrentDaysInMonth(currentDayJs.daysInMonth());
+    setSelectedMonthOfYear(dayjs(immutableToday).format('YYYY'));
     
     const prevMonthRemaningDays = [...Array(firstDayOfWeek).keys()].map((item) => currentDayJs.subtract(1, 'month').endOf('month').subtract(item, 'day').format(dateFormat)).reverse();
     setPrevMonthRemaningDays(prevMonthRemaningDays);
@@ -82,15 +80,14 @@ const Datepicker = () => {
     const nextMonthRemaningDays = [...Array(daysCount - prevMonthRemaningDays.length - currentMonthDays.length).keys()].map((item) => currentDayJs.add(1, 'month').startOf('month').add(item, 'day').format(dateFormat));
     setNextMonthRemaningDays(nextMonthRemaningDays);
   }, [
-    setYyyy,
     setFirstDayOfWeek,
-    setCurrentMMM,
     setCurrentDaysInMonth,
+    setSelectedMonthOfYear,
     setPrevMonthRemaningDays,
     setCurrentMonthDays,
     setNextMonthRemaningDays,
     currentDayJs,
-    currentDate,
+    immutableToday,
     firstDayOfWeek,
     currentDaysInMonth,
   ]);
@@ -106,11 +103,10 @@ const Datepicker = () => {
               <ArrowForwardIosIcon />
             </div>
             <DatepickerTitle
+              currentDayJs={currentDayJs}
               dateViews={dateViews}
               dateView={dateView}
               setDateView={setDateView}
-              currentMMM={currentMMM}
-              yyyy={yyyy}
             />
             <div className="next day clickable" onClick={() => switchToggle('next')}>
               <ArrowForwardIosIcon />
@@ -120,7 +116,7 @@ const Datepicker = () => {
         <DatepickerBody
           dateViews={dateViews}
           dateView={dateView}
-          currentDate={currentDate}
+          immutableToday={immutableToday}
           dayWeekNames={dayWeekNames}
           prevMonthRemaningDays={prevMonthRemaningDays}
           currentMonthDays={currentMonthDays}

@@ -4,7 +4,7 @@ import './Datepicker.scoped.scss';
 const DatepickerBodyYears = ({...args}) => {
 
   const {
-    currentDate,
+    immutableToday,
     dayWeekNames,
     prevMonthRemaningDays,
     currentMonthDays,
