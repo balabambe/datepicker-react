@@ -24,6 +24,8 @@ const Datepicker = () => {
   const [currentMonthDays, setCurrentMonthDays] = useState([]);
   const [nextMonthRemaningDays, setNextMonthRemaningDays] = useState([]);
 
+  const [selectedMonthOfYear, setSelectedMonthOfYear] = useState(dayjs(currentDate).format('YYYY'));
+
   const [selectedDate, setSelectedDate] = useState(currentDate);
 
   const [dateView, setDateView] = useState(dateViews[0]);
@@ -40,6 +42,32 @@ const Datepicker = () => {
       default:
     }
   }
+  const changeYear = (act) => {
+    switch (act) {
+      case 'prev':
+        setSelectedMonthOfYear(dayjs(selectedMonthOfYear).subtract(1, 'year').format('YYYY'));
+        break;
+      case 'next':
+        setSelectedMonthOfYear(dayjs(selectedMonthOfYear).add(1, 'year').format('YYYY'));
+        break;
+      default:
+    }
+  }
+
+  const switchToggle = (act) => {
+    switch (dateView) {
+      case dateViews[1]:
+        changeYear(act);
+        break;
+      case dateViews[2]:
+  
+        break;
+      default:
+      case dateViews[0]:
+        changeMonth(act);
+        break;
+    }
+  }
 
   useEffect(() => {
     setYyyy(currentDate.split('-')[0]);
@@ -53,7 +81,6 @@ const Datepicker = () => {
     setCurrentMonthDays(currentMonthDays);
     const nextMonthRemaningDays = [...Array(daysCount - prevMonthRemaningDays.length - currentMonthDays.length).keys()].map((item) => currentDayJs.add(1, 'month').startOf('month').add(item, 'day').format(dateFormat));
     setNextMonthRemaningDays(nextMonthRemaningDays);
-
   }, [
     setYyyy,
     setFirstDayOfWeek,
@@ -75,7 +102,7 @@ const Datepicker = () => {
       <div className="datepicker-main">
         <div className="datepicker-header">
           <div className="datepicker-nav">
-            <div className="prev day clickable" onClick={() => changeMonth('prev')}>
+            <div className="prev day clickable" onClick={() => switchToggle('prev')}>
               <ArrowForwardIosIcon />
             </div>
             <DatepickerTitle
@@ -85,19 +112,23 @@ const Datepicker = () => {
               currentMMM={currentMMM}
               yyyy={yyyy}
             />
-            <div className="next day clickable" onClick={() => changeMonth('next')}>
+            <div className="next day clickable" onClick={() => switchToggle('next')}>
               <ArrowForwardIosIcon />
             </div>
           </div>
         </div>
         <DatepickerBody
           dateViews={dateViews}
+          dateView={dateView}
           currentDate={currentDate}
           dayWeekNames={dayWeekNames}
           prevMonthRemaningDays={prevMonthRemaningDays}
           currentMonthDays={currentMonthDays}
           nextMonthRemaningDays={nextMonthRemaningDays}
           selectedDate={selectedDate}
+          setDateView={setDateView}
+          selectedMonthOfYear={selectedMonthOfYear}
+          setCurrentDayJs={setCurrentDayJs}
           setSelectedDate={setSelectedDate}
         />
       </div>
