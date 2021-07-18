@@ -1,5 +1,11 @@
 .datepicker-main {
+  position: absolute;
+  z-index: 1;
   width: 252px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  box-shadow: 0 0 2px 2px rgba(0, 0, 0, .1);
+  padding: 10px;
 }
 .datepicker-nav {
   .prev,
@@ -30,6 +36,7 @@
 .datepicker-dayweekname {
   display: block;
   font-weight: bold;
+  user-select: none;
 }
 .days-block {
   display: block;
