@@ -34,9 +34,30 @@
 .days-block {
   display: block;
 }
-.outside-day {
+.outside {
   color: #eee;
 }
+.day {
+  display: inline-block;
+  margin: 2px;
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  line-height: 32px;
+
+  &.current-day {
+    color: #db3d44;
+  }
+}
+.month,
+.year {
+  display: inline-block;
+  width: 63px;
+  height: 63px;
+  text-align: center;
+  line-height: 63px;
+}
+
 .clickable {
   cursor: pointer;
   transition: .2s ease;
@@ -56,30 +77,6 @@
       background: #eee;
     }
   }
-}
-.day {
-  display: inline-block;
-  margin: 2px;
-  width: 32px;
-  height: 32px;
-  text-align: center;
-  line-height: 32px;
-
-  &.current-day {
-    color: #db3d44;
-  }
-
-  &.selected {
-    background: #db3d44;
-    color: white;
-  }
-}
-.month {
-  display: inline-block;
-  width: 63px;
-  height: 63px;
-  text-align: center;
-  line-height: 63px;
 
   &.selected {
     background: #db3d44;
