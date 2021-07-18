@@ -1,5 +1,5 @@
 .datepicker-main {
-  width: 238px;
+  width: 252px;
 }
 .datepicker-nav {
   .prev,
@@ -17,7 +17,7 @@
   }
   .date-title {
     display: inline-block;
-    width: 170px;
+    width: 180px;
     text-align: center;
     font-weight: bold;
   }
@@ -60,14 +60,26 @@
 .day {
   display: inline-block;
   margin: 2px;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   text-align: center;
-  line-height: 30px;
+  line-height: 32px;
 
   &.current-day {
     color: #db3d44;
   }
+
+  &.selected {
+    background: #db3d44;
+    color: white;
+  }
+}
+.month {
+  display: inline-block;
+  width: 63px;
+  height: 63px;
+  text-align: center;
+  line-height: 63px;
 
   &.selected {
     background: #db3d44;
